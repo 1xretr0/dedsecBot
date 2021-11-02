@@ -1,10 +1,15 @@
 import discord
 import requests
 import json
+import random
 #import os
 #os library works if we hide our token in an online editor
 
 client = discord.Client()
+
+sad_words = ['sad', 'depressed', 'unhappy', 'angry', 'mad', 'miserable']
+starter_encouragements = ["Cheer up!", "Hang in there.",
+"You are a great person/bot", "Dont be sad please, darling"]
 
 def getQuote():
     response = requests.get("https://zenquotes.io/api/random")
@@ -29,4 +34,8 @@ async def on_message(message):
         quote = getQuote()
         await message.channel.send(quote)
 
-client.run('TOKEN')
+    msg = message.content
+    if any(word in msg for word in sad_words):
+        await message.channel.send(random.choice(starter_encouragements))
+
+client.run('OTA0NzQ3OTcyNDgxMzkyNzIw.YYACNg.cUBJQ9qqEsN_rVoSD2mGwaNnuYY')
