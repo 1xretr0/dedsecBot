@@ -18,20 +18,6 @@ def getQuote():
     quote = json_data[0]['q'] + " -" + json_data[0]['a']
     return(quote)
 
-def updateEncouragements(encouraging_message):
-    if 'encouragements' in db.keys():
-        encouragements = db['encouragements']
-        encouragements.append(encouraging_message)
-        db['encouragements'] = encouragements
-    else:
-        db['encouragements'] = [encouraging_message]
-
-def deleteEncouragment(index):
-    encouragements = db['encouragements']
-    if len(encouragements) > index:
-        del encouragements[index]
-    db[encouragements] = encouragements
-
 @client.event
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
@@ -52,22 +38,5 @@ async def on_message(message):
 
     if any(word in msg for word in sad_words):
         await message.channel.send(random.choice(starter_encouragements))
-
-    options = starter_encouragements
-    if 'encouragements' in db.keys():
-        options = options + db['encouragements']
-
-    if msg.startswith('$new'):
-        encouraging_message = msg.split('$new ', 1)[1]
-        updateEncouragements(encouraging_message)
-        await message.channel.send("New encouraging message added.")
-
-    if msg.startswith('$del'):
-        encouragements = []
-        if 'encouragements' in db.keys():
-            index = int(msg.split('$del', 1)[1])
-            deleteEncouragment(index)
-            encouragements = db['encouragements']
-        await message.channel.send(encouragements)
 
 client.run('TOKEN')
