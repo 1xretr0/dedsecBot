@@ -1,2 +1,2 @@
-# dedsecBot
-Discord bot personal Project.
+# Dedsec Bot
+Discord bot personal learning project.
